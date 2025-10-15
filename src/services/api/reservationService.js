@@ -35,16 +35,16 @@ export const reservationService = {
     // Send confirmation email via Edge function
     try {
       const emailResult = await apperClient.functions.invoke(
-        import.meta.env.VITE_SEND_RESERVATION_EMAIL,
+import.meta.env.VITE_SEND_RESERVATION_EMAIL,
         {
           body: JSON.stringify({
-            customerName: reservation.customerName,
-            customerEmail: reservation.customerEmail,
-            customerPhone: reservation.customerPhone,
-            date: reservation.date,
-            time: reservation.time,
-            partySize: reservation.partySize,
-            specialRequests: reservation.specialRequests
+            customerName: reservationData.customerName,
+            customerEmail: reservationData.customerEmail,
+            customerPhone: reservationData.customerPhone,
+            date: reservationData.date,
+            time: reservationData.time,
+            partySize: reservationData.partySize,
+            specialRequests: reservationData.specialRequests
           }),
           headers: {
             "Content-Type": "application/json"
