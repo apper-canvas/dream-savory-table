@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import HeroSection from "@/components/organisms/HeroSection";
+import PhotoCarousel from "@/components/organisms/PhotoCarousel";
 import MenuSection from "@/components/organisms/MenuSection";
 import ReviewsSection from "@/components/organisms/ReviewsSection";
 import ApperIcon from "@/components/ApperIcon";
@@ -23,9 +24,31 @@ const Home = () => {
     }
   ];
 
-  return (
+return (
     <div className="pt-20">
       <HeroSection />
+      
+      {/* Photo Carousel Section */}
+      <section className="py-16 bg-gradient-to-b from-white via-surface to-white">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-4xl md:text-5xl font-display font-bold text-secondary mb-4">
+              Experience Our Restaurant
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Discover the ambiance, atmosphere, and artistry that makes The Savory Table unforgettable
+            </p>
+          </motion.div>
+          
+          <PhotoCarousel />
+        </div>
+      </section>
       
       {/* Features Section */}
       <section className="py-20 bg-white">
