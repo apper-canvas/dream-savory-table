@@ -96,11 +96,14 @@ try {
       if (!isAvailable) {
         toast.error("This time slot is no longer available. Please select another time.");
         await checkAvailability(formData.date);
+        setLoading(false);
         return;
       }
 
       await reservationService.create(formData);
+      setLoading(false);
       
+      // Show success toast after loading is complete
       toast.success("Reservation confirmed! We look forward to seeing you.");
       
       // Delay form reset to ensure toast is visible
@@ -120,7 +123,6 @@ try {
       
     } catch (error) {
       toast.error("Failed to create reservation. Please try again.");
-    } finally {
       setLoading(false);
     }
   };
