@@ -7,7 +7,6 @@ import Input from "@/components/atoms/Input";
 import Select from "@/components/atoms/Select";
 import Card from "@/components/atoms/Card";
 import ApperIcon from "@/components/ApperIcon";
-
 const ReservationForm = () => {
   const [formData, setFormData] = useState({
     date: "",
@@ -99,15 +98,14 @@ try {
         setLoading(false);
         return;
       }
-
-      await reservationService.create(formData);
+await reservationService.create(formData);
       setLoading(false);
       
       // Show success toast after loading is complete
       toast.success("Reservation confirmed! We look forward to seeing you.");
       
       // Delay form reset to ensure toast is visible
-      setTimeout(() => {
+setTimeout(() => {
         // Reset form
         setFormData({
           date: "",

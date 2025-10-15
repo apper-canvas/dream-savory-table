@@ -2,6 +2,13 @@ import reservationsData from "@/services/mockData/reservations.json";
 
 let reservations = [...reservationsData];
 
+// Initialize ApperClient for Edge function integration
+const { ApperClient } = window.ApperSDK;
+const apperClient = new ApperClient({
+  apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+  apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+});
+
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 export const reservationService = {
@@ -22,8 +29,36 @@ export const reservationService = {
       Id: newId,
       ...reservationData,
       status: "confirmed"
-    };
+};
     reservations.push(newReservation);
+    
+    // Send confirmation email via Edge function
+    try {
+      const emailResult = await apperClient.functions.invoke(
+        import.meta.env.VITE_SEND_RESERVATION_EMAIL,
+        {
+          body: JSON.stringify({
+            customerName: reservation.customerName,
+            customerEmail: reservation.customerEmail,
+            customerPhone: reservation.customerPhone,
+            date: reservation.date,
+            time: reservation.time,
+            partySize: reservation.partySize,
+            specialRequests: reservation.specialRequests
+          }),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+      );
+      
+      if (!emailResult.success) {
+        console.info(`apper_info: Got an error in this function: ${import.meta.env.VITE_SEND_RESERVATION_EMAIL}. The response body is: ${JSON.stringify(emailResult)}.`);
+      }
+    } catch (error) {
+      console.info(`apper_info: Got this error in this function: ${import.meta.env.VITE_SEND_RESERVATION_EMAIL}. The error is: ${error.message}`);
+    }
+    
     return newReservation;
   },
 
