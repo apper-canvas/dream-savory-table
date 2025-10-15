@@ -88,7 +88,7 @@ const ReservationForm = () => {
       return;
     }
 
-    try {
+try {
       setLoading(true);
       
       // Check final availability
@@ -103,17 +103,20 @@ const ReservationForm = () => {
       
       toast.success("Reservation confirmed! We look forward to seeing you.");
       
-      // Reset form
-      setFormData({
-        date: "",
-        time: "",
-        partySize: "",
-        customerName: "",
-        customerEmail: "",
-        customerPhone: "",
-        specialRequests: ""
-      });
-      setAvailableSlots([]);
+      // Delay form reset to ensure toast is visible
+      setTimeout(() => {
+        // Reset form
+        setFormData({
+          date: "",
+          time: "",
+          partySize: "",
+          customerName: "",
+          customerEmail: "",
+          customerPhone: "",
+          specialRequests: ""
+        });
+        setAvailableSlots([]);
+      }, 500);
       
     } catch (error) {
       toast.error("Failed to create reservation. Please try again.");
